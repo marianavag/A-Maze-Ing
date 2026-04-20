@@ -1,8 +1,11 @@
 import sys
 
+# ----------------------------------------------
+# Creating a dictionary with the keys and values
+# It lowers the key strings and 
 
 def create_dict(filename: str) -> dict[str, str]:
-    # Create a dictionary with the keys and values
+
     file = open(filename, 'r')
     config_dict = {}
     while True:
@@ -18,16 +21,12 @@ def create_dict(filename: str) -> dict[str, str]:
     file.close()
     return (config_dict)
 
+# ---------------------------------------
+# Checking if every mandatory key appears
 
 def check_keys(config_dict: dict[str, str]) -> None:
-    # Check if every mandatory key appears
-    mandatory_keys = [
-        "width",
-        "height",
-        "entry",
-        "exit",
-        "output_file",
-        "perfect"]
+
+    mandatory_keys = ["width", "height", "entry", "exit", "output_file", "perfect"]
     missing_keys = []
     for key in mandatory_keys:
         if key not in config_dict:
@@ -40,10 +39,12 @@ def check_keys(config_dict: dict[str, str]) -> None:
         error_message += " not found"
         raise KeyError(error_message)
 
+# ----------------------------
+# Checking types of the values
+# If no error ocurred it returns a dict with the values casted 
 
 def check_types(config_dict: dict[str, str]) -> str | dict[str, any]:
-    # Check types of the values
-    # If no error ocurred it returns a dict with the values casted
+
     key_type_dict = {"int": ["width", "height"],
                      "int_tuple": ["entry", "exit"],
                      "text_file": ["output_file"],
@@ -83,10 +84,12 @@ def check_types(config_dict: dict[str, str]) -> str | dict[str, any]:
                         raise TypeError(f"[ERROR] '{key}' has to be boolean")
     return (config_dict)
 
+# ---------------------------------------------------------
+# Full parsing function for keys that runs the others above 
+# This function returns a string if an error ocurred or nothing if everything worked 
 
 def parsing_keys() -> str | dict[str, any]:
-    # Full parsing function for keys that runs the others above
-    # Returns a string if an error ocurred or nothing if everything worked
+
     filename = sys.argv[1]
     try:
         config_dict = create_dict(filename)
@@ -113,7 +116,7 @@ def parsing_keys() -> str | dict[str, any]:
 
 def parsing_values(config_dict: dict[str, any],
                    taken_cells: list[tuple[int, int]]) -> str | None:
-    # Verify if all parameters are valid
+
     width = config_dict["width"]
     height = config_dict["height"]
     if width < 9:
@@ -126,18 +129,16 @@ def parsing_values(config_dict: dict[str, any],
     x_exit, y_exit = exit_cell
     if (x_entry < 0 or x_entry >= width or y_entry < 0 or y_entry >= height):
         raise ValueError(f"[ERROR] Start coordinate '({x_entry}, {y_entry})' "
-                         f"has to be inside maze "
-                         f"(positive and smaller then {width})")
+                         f"has to be inside maze (positive and smaller then {width})")
     if (x_exit < 0 or x_exit >= width or y_exit < 0 or y_exit >= height):
         raise ValueError(f"[ERROR] Finish coordinate '({x_exit}, {y_exit})' "
-                         f"has to be inside maze "
-                         f"(positive and smaller then {width})")
+                         f"has to be inside maze (positive and smaller then {width})")
     if (entry_cell in taken_cells) or (exit_cell in taken_cells):
-        raise ValueError("[ERROR] Entry and exit coordinates cannot be on 42")
+        raise ValueError(f"[ERROR] Entry and exit coordinates cannot be on 42")
 
 
 def get_42_cells(config_dict: dict[str, any]) -> list[tuple[int, int]]:
-    # Defines the cells with 42
+
     width = config_dict["width"]
     height = config_dict["height"]
     x_mid = width // 2 - 1

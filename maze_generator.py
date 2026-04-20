@@ -1,5 +1,4 @@
-from random import choice
-
+from random import randint, choice
 
 class MazeGenerator:
 
@@ -16,7 +15,8 @@ class MazeGenerator:
         self.walls_config = self.init_walls()
         self.num_42_cells = num_42_cells
 
-    def init_walls(self) -> dict[tuple[int, int], list[int]]:
+
+    def init_walls(self):
 
         grid = dict()
         for i in range(self.height):
@@ -24,32 +24,22 @@ class MazeGenerator:
                 grid[(j, i)] = [1, 1, 1, 1]
         return (grid)
 
+    
     def get_possible_moves(self, curr_coordinate: tuple[int, int],
-                           taken_cells: list[tuple[int, int]]) -> list[int]:
+                           taken_cells = list[tuple[int, int]]) -> list[int]:
 
         x, y = curr_coordinate
-        moves_dict = {
-            0: (x, y - 1),
-            1: (x + 1, y),
-            2: (x, y + 1),
-            3: (x - 1, y)
-            }
+        moves_dict = {0: (x, y - 1), 1: (x + 1, y), 2: (x, y + 1), 3: (x - 1, y)}
         possible_moves = []
         for move in moves_dict.values():
             x, y = move
-            if (
-                x >= 0 and
-                x < self.width and
-                y >= 0 and y < self.height and
-                move not in taken_cells
-            ):
+            if (x >= 0 and x < self.width and y >= 0 and y < self.height and
+                move not in taken_cells):
                 possible_moves.append(move)
-        possible_moves_dict = {
-            num: move
-            for num, move in moves_dict.items()
-            if move in possible_moves
-            }
+        possible_moves_dict = {num: move for num, move in moves_dict.items() if
+                               move in possible_moves}
         return (possible_moves_dict)
+
 
     def create_maze(self) -> None:
 
@@ -58,18 +48,17 @@ class MazeGenerator:
         taken_cells.append(curr_cell)
         total_cells = self.height * self.width
         while len(taken_cells) != total_cells:
-            possible_moves_dict = self.get_possible_moves(
-                curr_cell, taken_cells)
+            possible_moves_dict = self.get_possible_moves(curr_cell, taken_cells)
             while not possible_moves_dict:
                 curr_index = taken_cells.index(curr_cell)
                 curr_cell = taken_cells[curr_index - 1]
-                possible_moves_dict = self.get_possible_moves(
-                    curr_cell, taken_cells)
+                possible_moves_dict = self.get_possible_moves(curr_cell, taken_cells)
             move_index = choice(list(possible_moves_dict.keys()))
             self.walls_config[curr_cell][move_index] = 0
             curr_cell = possible_moves_dict[move_index]
             self.walls_config[curr_cell][(move_index + 2) % 4] = 0
             taken_cells.append(curr_cell)
+
 
     def write_output(self) -> None:
 
