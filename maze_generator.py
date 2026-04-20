@@ -1,4 +1,5 @@
-from random import randint, choice
+from random import choice
+
 
 class MazeGenerator:
 
@@ -15,8 +16,7 @@ class MazeGenerator:
         self.walls_config = self.init_walls()
         self.num_42_cells = num_42_cells
 
-
-    def init_walls(self):
+    def init_walls(self) -> dict[tuple[int, int], list[int]]:
 
         grid = dict()
         for i in range(self.height):
@@ -24,22 +24,32 @@ class MazeGenerator:
                 grid[(j, i)] = [1, 1, 1, 1]
         return (grid)
 
-    
-    def get_possible_moves(self, curr_coordinate: tuple[int, int],
-                           taken_cells = list[tuple[int, int]]) -> list[int]:
+    def get_possible_moves1(self, curr_coordinate: tuple[int, int],
+                            taken_cells: list[tuple[int, int]]) -> list[int]:
 
         x, y = curr_coordinate
-        moves_dict = {0: (x, y - 1), 1: (x + 1, y), 2: (x, y + 1), 3: (x - 1, y)}
+        moves_dict = {
+            0: (x, y - 1),
+            1: (x + 1, y),
+            2: (x, y + 1),
+            3: (x - 1, y)
+            }
         possible_moves = []
         for move in moves_dict.values():
             x, y = move
-            if (x >= 0 and x < self.width and y >= 0 and y < self.height and
-                move not in taken_cells):
+            if (
+                x >= 0 and
+                x < self.width and
+                y >= 0 and y < self.height and
+                move not in taken_cells
+            ):
                 possible_moves.append(move)
-        possible_moves_dict = {num: move for num, move in moves_dict.items() if
-                               move in possible_moves}
+        possible_moves_dict = {
+            num: move
+            for num, move in moves_dict.items()
+            if move in possible_moves
+            }
         return (possible_moves_dict)
-
 
     def create_maze(self) -> None:
 
@@ -48,17 +58,50 @@ class MazeGenerator:
         taken_cells.append(curr_cell)
         total_cells = self.height * self.width
         while len(taken_cells) != total_cells:
-            possible_moves_dict = self.get_possible_moves(curr_cell, taken_cells)
+            possible_moves_dict = self.get_possible_moves1(
+                curr_cell, taken_cells)
             while not possible_moves_dict:
                 curr_index = taken_cells.index(curr_cell)
                 curr_cell = taken_cells[curr_index - 1]
-                possible_moves_dict = self.get_possible_moves(curr_cell, taken_cells)
+                possible_moves_dict = self.get_possible_moves1(
+                    curr_cell, taken_cells)
             move_index = choice(list(possible_moves_dict.keys()))
             self.walls_config[curr_cell][move_index] = 0
             curr_cell = possible_moves_dict[move_index]
             self.walls_config[curr_cell][(move_index + 2) % 4] = 0
             taken_cells.append(curr_cell)
 
+    def get_possible_moves2(curr_cell: tuple[int, int],
+                            taken_cells: list[tuple[int, int]]) -> tuple[int, int] | None:
+
+        up, right, down, left = self.walls_config[curr_cell]
+        x, y = curr_cell
+        cell_up = (x, y - 1)
+        cell_right = (x + 1, y)
+        cell_down = (x, y + 1)
+        cell_left = (x - 1, y)
+        if not up and cell_up not in taken_cells:
+            return (cell_up)
+        elif not right and cell_right not in taken_cells:
+            return (cell_right)
+        elif not down and cell_down not in taken_cells:
+            return (cell_down)
+        elif not left and cell_left not in taken_cells:
+            return (cell_left)
+        else:
+            return (None)
+
+    def solve_maze(self) -> None:
+
+        curr_cell = self.start
+        taken_cells = [curr_cell]
+        best_path = [curr_cell]
+        while curr_cell != self.exit:
+            move = get_possible_moves2(curr_cells, taken_cells)
+            while not move:
+                curr_index = taken_cell.index(curr_cell)
+                curr_cell = taken_cell[curr_index - 1]
+                move = get_possible_moves2(curr_cells, taken_cells)
 
     def write_output(self) -> None:
 

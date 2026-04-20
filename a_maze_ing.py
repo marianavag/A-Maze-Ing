@@ -1,8 +1,7 @@
 import sys
 import parsing
 from draw import Image
-from maze_generator import MazeGenerator 
-from random import randint, choice 
+from maze_generator import MazeGenerator
 
 
 def main() -> None:
@@ -22,7 +21,8 @@ def main() -> None:
         sys.exit()
     maze = MazeGenerator(config_dict["width"], config_dict["height"],
                          config_dict["entry"], config_dict["exit"],
-                         config_dict["output_file"], config_dict["perfect"], num_42_cells)
+                         config_dict["output_file"], config_dict["perfect"],
+                         num_42_cells)
     maze.create_maze()
     maze.write_output()
     color_dict = {"maze_num_wall": [120, 120, 120],
