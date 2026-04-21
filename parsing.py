@@ -14,6 +14,8 @@ def create_dict(filename: str) -> dict[str, str]:
         key, value = line.split("=")
         key = key.lower().strip()
         value = value.strip()
+        if key in config_dict:
+            raise TypeError("[ERROR] Key already in list")
         config_dict[key] = value
     file.close()
     return (config_dict)
