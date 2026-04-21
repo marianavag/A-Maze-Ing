@@ -33,7 +33,6 @@ def main() -> None:
                   "position": [150, 150, 150]}
     texts = ["====== A-Maze-Ing ======",
              "Use arrows to move",
-             "Press T to start game",
              "Press SPACE to Change Colors",
              "Press N to Re-generate maze",
              "Press S to Show Solution",
