@@ -72,6 +72,7 @@ The project was designed with strict modularity to allow its components to be in
 ### How to reuse it in other projects
 1 - **Install the package**:
 Run `make install` or `pip install -e .` in the project root.
+
 2 - **Import and Execute**:
 ```bash
 from mazegen.maze_generator import MazeGenerator
@@ -94,6 +95,7 @@ The maze is stored in `self.walls_config`, a dictionary where keys are `(x, y)` 
 
 ### Team roles
 **rcarmo-d** - Core Maze Logic, DFS Algorithm, Pathfinding Solver, Pixel Buffers.
+
 **mgomes-v** - MLX Graphics, Parsing Engine, Reusability Structure, Makefile/README.
 
 ### Evolution & Challenges
