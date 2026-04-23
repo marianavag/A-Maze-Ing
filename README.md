@@ -93,9 +93,8 @@ The maze is stored in `self.walls_config`, a dictionary where keys are `(x, y)` 
 ## Team & Project Management
 
 ### Team roles
-Member,Roles
-rcarmo-d,Core Maze Logic, DFS Algorithm, Pathfinding Solver, Pixel Buffers.
-mgomes-v,MLX Graphics, Parsing Engine, Reusability Structure, Makefile/README.
+**rcarmo-d** - Core Maze Logic, DFS Algorithm, Pathfinding Solver, Pixel Buffers.
+**mgomes-v** - MLX Graphics, Parsing Engine, Reusability Structure, Makefile/README.
 
 ### Evolution & Challenges
 - **Scope Creep**: Initially, we only planned a static visualizer with simple color animations. We evolved this into a **fully playable game**, which required complex integration of keyboard hooks and real-time rendering.
