@@ -1,13 +1,16 @@
 MAIN=a-maze-ing.py
+CONFIG=config.txt
 
 install:
+	python3 -m pip install --upgrade pip
+	python3 -m pip install -e .
 	python3 -m pip install flake8 mypy
 
 run:
-	python $(MAIN) config.txt
+	python $(MAIN) $(CONFIG)
 
 debug:
-	python -m pdb $(MAIN) config.txt
+	python -m pdb $(MAIN) $(CONFIG)
 
 clean:
 	find . -type d \( -name "__pycache__" -o -name ".mypy_cache" \) -exec rm -rf {} +
