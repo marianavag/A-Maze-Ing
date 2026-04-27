@@ -69,7 +69,7 @@ The project was designed with strict modularity to allow its components to be in
 1 - **Install the package**:
 Run `make install` or `pip install -e .` in the project root.
 
-2 - **Import and Execute**:
+2 - **Import and Execute in Python**:
 ```Python
 from mazegen.maze_generator import MazeGenerator
 
