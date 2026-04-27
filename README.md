@@ -18,10 +18,6 @@ The project includes a Makefile to automate the setup. To install dependencies a
 ```bash
 make install
 ```
-Or manually specify a different config file:
-```bash
-python3 main.py your_config.txt
-```
 
 ### Execution
 To generate and visualize the maze using the default configuration file:
@@ -74,21 +70,29 @@ The project was designed with strict modularity to allow its components to be in
 Run `make install` or `pip install -e .` in the project root.
 
 2 - **Import and Execute**:
-```bash
+```Python
 from mazegen.maze_generator import MazeGenerator
 
 # Initialize with dimensions and constraints
-maze = MazeGenerator(width=20, height=20, start=(0,0), end=(19,19), ...)
+maze = MazeGenerator(
+    width=20,
+    height=20,
+    start=(0,0),
+    end=(19,19),
+    output_file="maze.txt",
+    maze_type=True,
+    num_42_cells=[]
+    )
 
 # Generate the maze data structure
 maze.create_maze()
 
-# Get the solution path as a list of coordinates
-path = maze.solve_maze((0,0), (19,19))
+# Save maze and solution to file
+maze.write_output()
 ```
 
-3 - **Data Structure:**:
-The maze is stored in `self.walls_config`, a dictionary where keys are `(x, y)` tuples and values are lists of integers representing walls `[Up, Right, Down, Left]`.
+3 - **Generated Structure:**:
+The generated maze and its solution are stored in maze.txt
 
 
 ## Team & Project Management

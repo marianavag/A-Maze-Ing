@@ -10,3 +10,9 @@ authors = [
     { name="mgomes-v" },
     { name="rcarmo-d" }
 ]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "mypy"
+]

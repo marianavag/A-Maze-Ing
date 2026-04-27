@@ -7,10 +7,10 @@ install:
 	python3 -m pip install flake8 mypy
 
 run:
-	python $(MAIN) $(CONFIG)
+	python3 $(MAIN) $(CONFIG)
 
 debug:
-	python -m pdb $(MAIN) $(CONFIG)
+	python3 -m pdb $(MAIN) $(CONFIG)
 
 clean:
 	find . -type d \( -name "__pycache__" -o -name ".mypy_cache" \) -exec rm -rf {} +
@@ -21,7 +21,7 @@ lint:
 	mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 lint-strict:
-	flake8
+	flake8 .
 	mypy . --strict
 
 .PHONY: install run debug clean lint lint-strict
