@@ -28,6 +28,7 @@ make run
 ### Controls
 - `Arrow Keys`: Move the player through the maze.
 - `SPACE`: Randomly change the interface colors.
+- `+` or `-`: Speed up or slow down animation that reveals the maze grid.
 - `N`: Generate a brand new maze.
 - `S`: Show the solution path.
 - `H`: Hide the solution path.
@@ -69,7 +70,7 @@ The project was designed with strict modularity to allow its components to be in
 1 - **Install the package**:
 Run `make install` or `pip install -e .` in the project root.
 
-2 - **Import and Execute in Python**:
+2 - **Import and Execute**:
 ```Python
 from mazegen.maze_generator import MazeGenerator
 
@@ -86,13 +87,18 @@ maze = MazeGenerator(
 
 # Generate the maze data structure
 maze.create_maze()
+maze.walls_config()
 
 # Save maze and solution to file
 maze.write_output()
+
+# Get the solution path as a list of coordinates
+maze.solve_maze((0,0), (19,19))
 ```
 
 3 - **Generated Structure:**:
-The generated maze and its solution are stored in maze.txt
+The maze is stored in `self.walls_config`, a dictionary where keys are `(x, y)` tuples and values are lists of integers representing walls `[Up, Right, Down, Left]`
+The generated maze and its solution are stored in maze.txt in hexadecimal.
 
 
 ## Team & Project Management
@@ -103,7 +109,7 @@ The generated maze and its solution are stored in maze.txt
 **mgomes-v** - MLX Graphics, Parsing Engine, Reusability Structure, Makefile/README.
 
 ### Evolution & Challenges
-- **Scope Creep**: Initially, we only planned a static visualizer with simple color animations. We evolved this into a **fully playable game**, which required complex integration of keyboard hooks and real-time rendering.
+- **Scope Creep**: Initially, we only planned a static visualizer with simple color animations. We evolved this into a **fully playable game**, a **reveal animation** that shows the maze grid and an **exploding walls animation** if the maze is imperfect (multiple solutions), showing which walls will be removed. These features required complex integration of keyboard hooks and real-time rendering.
 - **The "42" Obstacle**: Ensuring the maze stayed solvable while navigating around a fixed central logo was the biggest algorithmic challenge.
 
 ### Future Improvements
@@ -126,6 +132,8 @@ The generated maze and its solution are stored in maze.txt
 - **On-the-fly Generation**: Generate new mazes (`N`) and randomize colors (`SPACE`) without restarting.
 - **Logo Constraint**: Integrated the "42" logo into the logic while keeping the maze traversable.
 - **Seed Support**: Included a `SEED` parameter to allow the reproduction of specific layouts.
+- **Initial Animation**: Animated maze generation at startup. The animation speed can be adjusted in real time using + (faster) and - (slower).
+- **Imperfect Maze Visualization**: When generating an imperfect maze (multiple solutions), the algorithm visually highlights the walls that will be removed, helping to understand how additional paths are created.
 - **Project Portability**: Fully packaged using `pyproject.toml` for easy installation and reuse.
 
 
